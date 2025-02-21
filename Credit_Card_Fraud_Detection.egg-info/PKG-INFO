@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: Credit-Card-Fraud-Detection
+Version: 0.0.1
+Author: MD Nasim Akram
+Author-email: nasimakram6200@gmail.com
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: seaborn
+Requires-Dist: flask
