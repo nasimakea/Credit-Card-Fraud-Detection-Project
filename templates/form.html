@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Default Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 700px;
+            text-align: center;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            width: 48%;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Credit Default Prediction</h2>
+        <p>Enter the details below to predict default payment next month.</p>
+        
+        <form action="{{url_for('predict_datapoint')}}" method="POST" onsubmit="return validateForm()">
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="LIMIT_BAL">Credit Limit (NTD):</label>
+                    <input type="text" id="LIMIT_BAL" name="LIMIT_BAL" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="SEX">Sex:</label>
+                    <select id="SEX" name="SEX">
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="EDUCATION">Education Level:</label>
+                    <select id="EDUCATION" name="EDUCATION">
+                        <option value="1">Graduate School</option>
+                        <option value="2">University</option>
+                        <option value="3">High School</option>
+                        <option value="4">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="MARRIAGE">Marital Status:</label>
+                    <select id="MARRIAGE" name="MARRIAGE">
+                        <option value="1">Married</option>
+                        <option value="2">Single</option>
+                        <option value="3">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="AGE">Age:</label>
+                    <input type="text" id="AGE" name="AGE" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="PAY_0">Repayment Status (Last Month):</label>
+                    <input type="text" id="PAY_0" name="PAY_0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="PAY_2">Repayment Status (2 Months Ago):</label>
+                    <input type="text" id="PAY_2" name="PAY_2" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="BILL_AMT1">Bill Amount (Last Month):</label>
+                    <input type="text" id="BILL_AMT1" name="BILL_AMT1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="BILL_AMT2">Bill Amount (2 Months Ago):</label>
+                    <input type="text" id="BILL_AMT2" name="BILL_AMT2" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="PAY_AMT1">Payment Amount (Last Month):</label>
+                    <input type="text" id="PAY_AMT1" name="PAY_AMT1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="PAY_AMT2">Payment Amount (2 Months Ago):</label>
+                    <input type="text" id="PAY_AMT2" name="PAY_AMT2" required>
+                </div>
+            </div>
+
+            <input type="submit" value="Predict Default">
+        </form>
+
+        <div class="result">
+            {{final_result}}
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            let inputs = document.querySelectorAll("input[type='text']");
+            for (let input of inputs) {
+                if (input.value.trim() === "" || isNaN(input.value)) {
+                    alert("Please enter a valid number for " + input.name);
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>
