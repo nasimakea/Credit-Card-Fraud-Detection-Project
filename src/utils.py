@@ -1,6 +1,6 @@
 import pickle
 import os
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score
 
 def save_object(file_path, obj):
     """Save a Python object using pickle."""
@@ -9,7 +9,13 @@ def save_object(file_path, obj):
         pickle.dump(obj, file)
     return file_path
 
-
+def load_object(file_path):
+    """Load a Python object from a pickle file."""
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"No such file: '{file_path}'")
+    
+    with open(file_path, 'rb') as file:
+        return pickle.load(file)
 
 def evaluate_model(X_train, y_train, X_test, y_test, models):
     """Train and evaluate multiple models, returning their performance scores."""
@@ -28,3 +34,4 @@ def evaluate_model(X_train, y_train, X_test, y_test, models):
         model_report[model_name] = accuracy
     
     return model_report
+
